@@ -9,8 +9,7 @@ import (
 )
 
 func main() {
-	NodesFromFile()
-
+	NodesFromFile("index.html")
 }
 
 func FromUrl() {
@@ -26,8 +25,8 @@ func FromUrl() {
 	})
 }
 
-func NodesFromFile() {
-	file, err := ioutil.ReadFile("index.html")
+func NodesFromFile(fl string) {
+	file, err := ioutil.ReadFile(fl)
 	if err != nil {
 		return
 	}
@@ -36,8 +35,21 @@ func NodesFromFile() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	divs := doc.Find("div")
-	divs.Each(func(i int, sel *goquery.Selection) {
-		fmt.Sprintf("Node %s :: %d :: %s", sel.Nodes[0].Data, sel.Length(), sel.Text())
+	//divs := doc.Find("div")
+	tb := doc.Find("#tab1 tbody")
+	//divs.Each(func(i int, sel *goquery.Selection) {
+	//fmt.Sprintf("Node %s :: %d :: %s", sel.Nodes[0].Data, sel.Length(), sel.Text())
+	//println("====")
+	//println(sel.Text())
+	//})
+
+	fmt.Println(tb.Html())
+
+	tb.Children().Each(func(i int, el *goquery.Selection) {
+		fmt.Println(el.Html())
 	})
+
+	//tb.Each(func(i int, sl *goquery.Selection) {
+	//	println(sl.Text())
+	//})
 }
