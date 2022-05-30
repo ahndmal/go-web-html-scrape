@@ -10,9 +10,10 @@ import (
 )
 
 func main() {
+	//CollyFromFile("index.html")
 	file, err := ioutil.ReadFile("index.html")
 	if err != nil {
-		return
+		fmt.Println(err)
 	}
 	reader := bytes.NewReader(file)
 	doc, err := goquery.NewDocumentFromReader(reader)
@@ -21,12 +22,13 @@ func main() {
 	}
 	//divs := doc.Find("div")
 	tb := doc.Find("#tab1")
-	//fmt.Println(tb)
-	var res string
+	fmt.Println(tb.Text())
+
+	res := make([]string, 0)
 	//var ndd html.Node
 	err = colly.UnmarshalHTML(res, tb)
 	if err != nil {
-		return
+		fmt.Println(err)
 	}
 	fmt.Println(res)
 }
