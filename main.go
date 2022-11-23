@@ -4,17 +4,22 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
-	"io/ioutil"
 	"net/http"
+	"os"
+	"time"
 )
 
 func main() {
-	NodesFromFile()
+	start := time.Now()
 
+	//NodesFromFile("/home/andrii/GolandProjects/go-web-html-scrape/index.html")
+	FromUrl()
+
+	fmt.Println(fmt.Sprintf(" Time taken: %d", time.Now().Sub(start).Milliseconds()))
 }
 
 func FromUrl() {
-	resp, err := http.Get("https://example.com")
+	resp, err := http.Get("https://en.wikiversity.org/wiki/Wikiversity:Main_Page")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -26,12 +31,14 @@ func FromUrl() {
 	})
 }
 
-func NodesFromFile() {
-	file, err := ioutil.ReadFile("index.html")
+func NodesFromFile(fl string) {
+	file, err := os.ReadFile(fl)
 	if err != nil {
-		return
+		fmt.Println(err)
 	}
 	reader := bytes.NewReader(file)
+	//fs.ReadFile(, "index.html")
+	//io.ReadAll(fs.File)
 	doc, err := goquery.NewDocumentFromReader(reader)
 	if err != nil {
 		fmt.Println(err)
