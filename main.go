@@ -6,6 +6,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -19,16 +20,23 @@ func main() {
 }
 
 func FromUrl() {
-	resp, err := http.Get("https://en.wikiversity.org/wiki/Wikiversity:Main_Page")
+	url2 := "https://en.wikipedia.org/wiki/Project_Waler"
+	//url1 := "https://en.wikiversity.org/wiki/Wikiversity:Main_Page"
+	resp, err := http.Get(url2)
 	if err != nil {
 		fmt.Println(err)
 	}
+	texts := make([]string, 0)
 	defer resp.Body.Close()
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
 	elems := doc.Find("div")
 	elems.Each(func(i int, selection *goquery.Selection) {
-		println(selection.Text())
+		texts = append(texts, strings.TrimSpace(selection.Text())) //selection.Text()
 	})
+	fmt.Println(len(texts))
+	for _, text := range texts {
+		fmt.Println(text)
+	}
 }
 
 func NodesFromFile(fl string) {
