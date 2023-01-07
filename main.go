@@ -13,8 +13,7 @@ import (
 func main() {
 	start := time.Now()
 
-	//NodesFromFile("/home/andrii/GolandProjects/go-web-html-scrape/index.html")
-	FromUrl()
+	NodesFromFile("/home/andrii/GolandProjects/go-web-html-scrape/index.html", "div")
 
 	fmt.Println(fmt.Sprintf(" Time taken: %d", time.Now().Sub(start).Milliseconds()))
 }
@@ -39,7 +38,7 @@ func FromUrl() {
 	}
 }
 
-func NodesFromFile(fl string) {
+func NodesFromFile(fl string, toFind string) {
 	file, err := os.ReadFile(fl)
 	if err != nil {
 		fmt.Println(err)
@@ -51,8 +50,9 @@ func NodesFromFile(fl string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	divs := doc.Find("div")
+	divs := doc.Find(toFind)
 	divs.Each(func(i int, sel *goquery.Selection) {
-		fmt.Sprintf("Node %s :: %d :: %s", sel.Nodes[0].Data, sel.Length(), sel.Text())
+		//fmt.Println(sel.Text())
+		fmt.Printf("Node %s :: %d :: %s", sel.Nodes[0].Data, sel.Length(), sel.Text())
 	})
 }
